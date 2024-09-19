@@ -56,7 +56,8 @@ docker run --name <container_name> -p9000:5000 <image_name>
 ```
 - Replace <container_name> with the name of your container
 - Replace <image_name> with the name of your image
-## View Results: The system will analyze the input from saved/live footage, highlight personnel with bounding boxes, and categorize them as Safe or Unsafe based on their PPE compliance. 🚧🛡️
+## View Results
+The system will analyze the input from saved/live footage, highlight personnel with bounding boxes, and categorize them as Safe or Unsafe based on their PPE compliance. 🚧🛡️
 
 ![Results](ppe_results.png)
 
