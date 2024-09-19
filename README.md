@@ -27,6 +27,11 @@ This is a Linux based project which aims to automate safety monitoring, reduce h
 - Roboflow 📝 (for dataset creation and annotation)
 - OpenCV 🎥 (for video processing)
 - Docker 🐋 (for containerization and deployment)
+
+## Download the model weights:-
+
+ https://drive.google.com/file/d/1J--kK8AjDjhdaHHPrHEEB001NRRTIDd7/view?usp=sharing
+
 ## 🚀 How to Run the Project
 1. Clone the Repository:
 ```
