@@ -1,0 +1,288 @@
+/*=============== GOOGLE FONTS ===============*/
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap');
+
+/*=============== VARIABLES CSS ===============*/
+:root {
+  /*========== Colors ==========*/
+  --light: #F6FAFD;
+  --dark: #122272;
+  --pri-blue: #193FAF;
+  --sec-blue: #17A5F8;
+  --pri-green: #23C99D;
+  --alert: #FE7F0E;
+
+
+  /*========== Font and typography ==========*/
+  --body-font: 'Poppins', sans-serif;
+  --h1-font-size: 1.5rem;
+  --medium-font-size: 0.973rem;
+  --small-font-size: 0.813rem;
+  --smaller-font-size: 0.75rem;
+}
+
+/* Responsive typography */
+@media screen and (min-width: 1024px) {
+  :root {
+    --h1-font-size: 1.6875rem;
+    --medium-font-size: 1.125rem;
+    --small-font-size: .875rem;
+    --smaller-font-size: .813rem;
+  }
+}
+
+/*=============== BASE ===============*/
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-size: 1em;
+  font-weight: 500;
+  font-family: var(--body-font);
+  background-color: var(--light);
+}
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+/* form :where(i, p) {
+  /* color: var(--pri-blue);
+} */
+
+form i {
+  font-size: 1em;
+}
+
+form button {
+  font-size: 16px;
+  border: none;
+  font: var(--body-font);
+  background-color: var(--first-color);
+  cursor: pointer;
+  color: #F6FAFD;
+}
+
+a {
+  text-decoration: none;
+  color: var(--sec-blue);
+}
+
+
+.main {
+  padding: 0.5rem;
+}
+
+/*=============== GALLERY ===============*/
+
+
+.gallery_container {
+  /* width: 100%; */
+  margin-left: 10%;
+  /* position: absolute; */
+  display: flex;
+  width: 80%;
+}
+
+.gallery {
+  flex: 1;
+  border-radius: 1em;
+  outline: 3px dashed var(--pri-blue);
+  margin: 2em;
+}
+
+.gallery:first-child {
+  margin-right: 3em;
+}
+
+.gallery img {
+  width: 100%;
+  height: 100%;
+  border-radius: 1em;
+}
+
+/*=============== OPERATIONS ===============*/
+.operations_wrapper {
+  width: 90%;
+  margin: 5% 5% 0% 5%;
+  background-color: #fff;
+  border-radius: 1em;
+}
+
+
+
+/*=============== HEADING ===============*/
+.title {
+  text-align: center;
+}
+
+.header {
+  font-size: 2em;
+  font-weight: 600;
+  text-align: center;
+  height: 5em;
+  padding-top: 1em;
+  color: #F6FAFD;
+  margin-bottom: 5rem;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
+  border-bottom: 1rem;
+  font-family: 'Roboto Mono', monospace;
+  background: var(--pri-blue);
+  background: linear-gradient(110deg, var(--dark) 38%, var(--pri-blue) 100%);
+}
+
+/*=============== BUTTONS ===============*/
+.btn {
+
+  padding: 2em;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+
+}
+
+
+.upload__button,
+.download__button,
+.live__button,
+.inference__button {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--pri-blue);
+  color: #fff;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1.5rem;
+  cursor: pointer;
+}
+
+
+.upload__button:hover,
+.download__button:hover,
+.live__button:hover,
+.inference__button:hover,
+.email__sending:hover {
+  background-color: var(--pri-blue);
+  background: var(--pri-green);
+  background: linear-gradient(144deg, var(--pri-green) 20%, var(--sec-blue) 100%);
+  color: var(--light);
+}
+
+.upload__button:hover button,
+.download__button:hover button,
+.live__button:hover button,
+.inference__button:hover button {
+  color: var(--light);
+}
+
+.button__icon {
+  margin-left: 0.25rem;
+  transition: 0.3s;
+  color: var(--light);
+  font-size: var(--h1-font-size);
+}
+
+.download__button:hover .button__icon {
+  transform: translateY(0.25rem);
+}
+
+.upload__button:hover .button__icon {
+  transform: translateY(-0.25rem);
+}
+
+.inference__button:hover .button__icon {
+  transform: rotate(1rad);
+}
+
+.ip_address-input,
+.custom-file-input {
+  margin-right: 1rem;
+}
+
+
+/*=============== TOGGLE SWITCH ===============*/
+.email__sending {
+  border-radius: 0.5rem;
+  padding: 1rem 5rem 1rem 1rem;
+  background-color: var(--pri-blue);
+  display: inline-flex;
+  align-items: center;
+  /* margin: 2rem 5rem; */
+}
+
+.toggle__content {
+  position: relative;
+  margin-left: 2rem;
+  bottom: 0.74rem;
+}
+
+.email__label {
+  position: relative;
+  left: 4rem;
+  top: 0.85rem;
+}
+
+.toggle__label {
+  cursor: pointer;
+  padding-block: 0.5rem;
+}
+
+.toggle__check {
+  display: none;
+}
+
+.toggle__rail {
+  position: relative;
+  width: 52px;
+  height: 4px;
+  background-color: var(--light);
+  border-radius: 2rem;
+}
+
+.toggle__circle {
+  display: block;
+  width: 24px;
+  height: 24px;
+  background-color: var(--alert);
+  /* box-shadow: inset 0 0 0 4px var(--dark); */
+  border-radius: 50%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
+  transition: transform 0.4s, box-shadow 0.4s;
+  z-index: 2;
+}
+
+.toggle__border {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  background-color: var(--light);
+  border-radius: 50%;
+  left: -4px;
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
+  transition: transform 0.4s;
+}
+
+/* Toggle animation effects */
+.toggle__check:checked~.toggle__rail .toggle__circle {
+  transform: translateX(28px);
+  box-shadow: inset 0 0 0 12px var(--pri-green);
+}
+
+.toggle__check:checked~.toggle__rail .toggle__border {
+  transform: translateX(28px);
+}
+
+/*=============== BREAKPOINTS ===============*/
+/* For small devices */
+
+
+/* For large devices */

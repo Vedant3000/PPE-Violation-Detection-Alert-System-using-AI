@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--=============== REMIXICONS ===============-->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+
+    <!--=============== CSS ===============-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename="css/styles.css") }}">
+
+    <title>PPE Violation Detection</title>
+</head>
+
+<body>
+    <!--=============== AJAX ===============-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+            $('#myform').submit(function (event) {
+                event.preventDefault()
+                //submit_form(event);
+            });
+        });
+
+        $(document).ready(function () {
+            $('#alert_email_checkbox').change(function (event) {
+                event.preventDefault()
+                data = {
+                    'alert_email_checkbox': $('#alert_email_checkbox').is(':checked'),
+                    'alert_email_textbox': $('#alert_email_textbox').val(),
+                }
+                $.ajax({
+                    type: 'POST',
+                    url: '/submit',
+                    data: data,
+                    success: function (data) {
+                        alert(data);
+                    },
+                    error: function (error) {
+                        alert('Checkbox submission failed!');
+                    }
+                });
+            });
+        });
+
+
+        function upload_file() {
+            $.ajax({
+                type: 'POST',
+                url: '/submit',
+                data: new FormData($('#myform')[0]),//formData,
+                processData: false,
+                contentType: false,
+                cache: false,          //Required
+                success: function (data) {
+                    alert(data);
+                },
+                error: function (error) {
+                    alert('Form submission failed!');
+                }
+            });
+        }
+
+        function download_file() {
+            data = {
+                'download_button': 'True',
+            }
+            $.ajax({
+                type: 'POST',
+                url: '/submit',
+                data: data,
+                xhrFields: {
+                    responseType: 'blob' // to avoid binary data being mangled on charset conversion
+                },
+                // to download file as an attachment
+                //Reference - https://stackoverflow.com/questions/16086162/handle-file-download-from-ajax-post
+                success: function (blob, status, xhr) {
+                    // check for a filename
+                    var filename = "";
+                    var disposition = xhr.getResponseHeader('Content-Disposition');
+                    if (disposition && disposition.indexOf('attachment') !== -1) {
+                        var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                        var matches = filenameRegex.exec(disposition);
+                        if (matches != null && matches[1]) filename = matches[1].replace(/['"]/g, '');
+                    }
+
+                    if (typeof window.navigator.msSaveBlob !== 'undefined') {
+                        // IE workaround for "HTML7007: One or more blob URLs were revoked by closing the blob for which they were created. These URLs will no longer resolve as the data backing the URL has been freed."
+                        window.navigator.msSaveBlob(blob, filename);
+                    } else {
+                        var URL = window.URL || window.webkitURL;
+                        var downloadUrl = URL.createObjectURL(blob);
+
+                        if (filename) {
+                            // use HTML5 a[download] attribute to specify filename
+                            var a = document.createElement("a");
+                            // safari doesn't support this yet
+                            if (typeof a.download === 'undefined') {
+                                window.location.href = downloadUrl;
+                            } else {
+                                a.href = downloadUrl;
+                                a.download = filename;
+                                document.body.appendChild(a);
+                                a.click();
+                            }
+                        } else {
+                            window.location.href = downloadUrl;
+                        }
+                        setTimeout(function () { URL.revokeObjectURL(downloadUrl); }, 100); // cleanup
+                    }
+                },
+                error: function (error) {
+                    alert('Form submission failed!');
+                }
+            });
+        }
+
+        function video_inference() {
+            data = {
+                'inference_video_button': 'true',
+            }
+            $.ajax({
+                type: 'POST',
+                url: '/submit',
+                data: data,
+                success: function (data) {
+                    //alert(data);
+                    //window.location.href = '/';
+                },
+                error: function (error) {
+                    alert('Video inference failed!');
+                }
+            });
+        }
+
+        function live_inference() {
+            data = {
+                'live_inference_button': 'true',
+                'live_inference_textbox': $('#ip_address_textbox').val(),
+            }
+            $.ajax({
+                type: 'POST',
+                url: '/submit',
+                data: data,
+                success: function (data) {
+                    //alert(data);
+                    //window.location.href = '/';
+                },
+                error: function (xhr, status, error) {
+                    alert(xhr.responseText);
+                }
+            });
+        }
+
+
+    </script>
+    <!-- =============== HEADER =============== -->
+    <header class="header" id="header">
+        <div class="title">
+            <h1>PPE Violation Detection</h1>
+        </div>
+    </header>
+    <!-- =============== MAIN =============== -->
+
+    <!-- =============== VIDEOS =============== -->
+
+    <div class="gallery_container">
+
+        <div class="gallery">
+            <img src="{{ url_for('video_raw') }}" />
+        </div>
+
+        <div class="gallery">
+            <img src="{{ url_for('video_processed') }}" />
+        </div>
+    </div>
+
+
+    <!-- =============== OPERATIONS =============== -->
+    <div class="operations_wrapper">
+        <form id="myform" enctype="multipart/form-data" method="post">
+            <div class="btn">
+                <div class="upload__button">
+                    <input type="file" class="custom-file-input" name="video" id="video" value="video">
+                    <button type="submit" class="btn-primary" name="video_upload_button" id="video_upload_button"
+                        onclick="upload_file()">Upload Video
+                        <i class="ri-video-upload-fill button__icon"></i>
+                    </button>
+                </div>
+                <div class="live__button">
+                    <button class="btn-primary" name="inference_video_button" id="inference_video_button"
+                        onclick="video_inference()">Inference on Video
+                        <i class="ri-movie-2-fill button__icon"></i>
+                    </button>
+                </div>
+                <div class="inference__button">
+                    <input type="text" class="ip_address-input" name="ip_address_textbox" id="ip_address_textbox"
+                        placeholder="http://192.168.12.10:4747/video" value="http://192.168.12.10:4747/video">
+                    <button type="submit" class="btn-primary" name="live_inference_button" id="live_inference_button"
+                        onclick="live_inference()">Live Inference
+                        <i class="ri-settings-4-fill button__icon"></i>
+                    </button>
+                </div>
+                <div class="download__button">
+                    <button type="submit" class="btn-primary" name="download_button" id="download_button"
+                        onclick="download_file()">Download Report
+                        <i class="ri-file-download-fill button__icon"></i>
+                    </button>
+                </div>
+                <div class="email__sending">
+                    <div class="send__email">
+                        <input type="email" placeholder="Enter Valid Mail" value="support.ai@giindia.com"
+                            name="alert_email_textbox" id="alert_email_textbox">
+                    </div>
+                    <div class="toggle__content">
+                        <label class="toggle__label">
+                            <input type="checkbox" class="toggle__check" name="alert_email_checkbox"
+                                id='alert_email_checkbox' />
+                            <span class="email__label">Send Alert</span>
+                            <div class="toggle__rail">
+                                <span class="toggle__circle"></span>
+                                <span class="toggle__border"></span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>
